@@ -169,18 +169,18 @@ class NeuralNetwork:
         self.X = X
 
         # Layer 1: Linear transformation
-        # z1 = X @ W1 + b1
-        # Shape: (batch, 784) @ (784, 128) + (128,) = (batch, 128)
-        self.z1 = X @ self.W1 + self.b1
+        # z1 = np.dot(X, W1) + b1
+        # Shape: np.dot((batch, 784), (784, 128)) + (128,) = (batch, 128)
+        self.z1 = np.dot(X, self.W1) + self.b1
 
         # Layer 1: Activation (ReLU)
         # a1 = relu(z1)
         self.a1 = self.relu(self.z1)
 
         # Layer 2: Linear transformation
-        # z2 = a1 @ W2 + b2
-        # Shape: (batch, 128) @ (128, 10) + (10,) = (batch, 10)
-        self.z2 = self.a1 @ self.W2 + self.b2
+        # z2 = np.dot(a1, W2) + b2
+        # Shape: np.dot((batch, 128), (128, 10)) + (10,) = (batch, 10)
+        self.z2 = np.dot(self.a1, self.W2) + self.b2
 
         # Layer 2: Activation (Softmax)
         # a2 = softmax(z2)
@@ -255,12 +255,12 @@ class NeuralNetwork:
         # Step 2: Gradients for W2 and b2
         # =====================================================================
         #
-        # z2 = a1 @ W2 + b2
+        # z2 = np.dot(a1, W2) + b2
         #
-        # dL/dW2 = a1.T @ dz2  (chain rule: upstream gradient times local gradient)
-        # dL/db2 = sum(dz2)    (bias gradient is sum over batch)
+        # dL/dW2 = np.dot(a1.T, dz2)  (chain rule: upstream gradient times local gradient)
+        # dL/db2 = sum(dz2)           (bias gradient is sum over batch)
 
-        self.dW2 = self.a1.T @ dz2          # Shape: (128, 10)
+        self.dW2 = np.dot(self.a1.T, dz2)   # Shape: (128, 10)
         self.db2 = np.sum(dz2, axis=0)       # Shape: (10,)
 
         # =====================================================================
@@ -268,9 +268,9 @@ class NeuralNetwork:
         # =====================================================================
         #
         # We need dL/da1 to continue backpropagating
-        # dL/da1 = dz2 @ W2.T
+        # dL/da1 = np.dot(dz2, W2.T)
 
-        da1 = dz2 @ self.W2.T  # Shape: (batch, 128)
+        da1 = np.dot(dz2, self.W2.T)  # Shape: (batch, 128)
 
         # =====================================================================
         # Step 4: Backpropagate through ReLU
@@ -289,12 +289,12 @@ class NeuralNetwork:
         # Step 5: Gradients for W1 and b1
         # =====================================================================
         #
-        # z1 = X @ W1 + b1
+        # z1 = np.dot(X, W1) + b1
         #
-        # dL/dW1 = X.T @ dz1
+        # dL/dW1 = np.dot(X.T, dz1)
         # dL/db1 = sum(dz1)
 
-        self.dW1 = self.X.T @ dz1           # Shape: (784, 128)
+        self.dW1 = np.dot(self.X.T, dz1)    # Shape: (784, 128)
         self.db1 = np.sum(dz1, axis=0)       # Shape: (128,)
 
     # -------------------------------------------------------------------------

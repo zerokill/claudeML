@@ -24,7 +24,7 @@ print("=" * 60)
 print("1. MATRIX MULTIPLICATION")
 print("=" * 60)
 
-# In a neural network, each layer does: output = input @ weights + bias
+# In a neural network, each layer does: output = np.dot(input, weights) + bias
 # Let's break this down:
 
 # Imagine we have 3 samples, each with 4 features (like a mini-batch)
@@ -46,7 +46,7 @@ weights = np.array([
 print(f"Weights shape: {weights.shape}")  # (4, 2) = (input_features, output_neurons)
 
 # Matrix multiplication: each row of inputs gets multiplied with each column of weights
-output = inputs @ weights  # @ is the matrix multiplication operator
+output = np.dot(inputs, weights)  # np.dot performs matrix multiplication
 print(f"Output shape: {output.shape}")  # (3, 2) = (batch_size, output_neurons)
 print(f"Output:\n{output}")
 
@@ -221,8 +221,8 @@ print("Step 1: Input")
 print(f"  X shape: {X.shape}")
 
 print("\nStep 2: Hidden layer (linear)")
-z1 = X @ W1 + b1  # Linear transformation
-print(f"  z1 = X @ W1 + b1")
+z1 = np.dot(X, W1) + b1  # Linear transformation
+print(f"  z1 = np.dot(X, W1) + b1")
 print(f"  z1 shape: {z1.shape}")
 print(f"  z1:\n{z1}")
 
@@ -232,8 +232,8 @@ print(f"  a1 = relu(z1)")
 print(f"  a1:\n{a1}")
 
 print("\nStep 4: Output layer (linear)")
-z2 = a1 @ W2 + b2
-print(f"  z2 = a1 @ W2 + b2")
+z2 = np.dot(a1, W2) + b2
+print(f"  z2 = np.dot(a1, W2) + b2")
 print(f"  z2 shape: {z2.shape}")
 print(f"  z2:\n{z2}")
 
@@ -250,8 +250,8 @@ print("\n" + "=" * 60)
 print("SUMMARY - What You've Learned")
 print("=" * 60)
 print("""
-1. Matrix multiplication (@ operator) is how layers transform data
-   - Shape: (batch, input_features) @ (input_features, output_neurons) = (batch, output_neurons)
+1. Matrix multiplication with np.dot() is how layers transform data
+   - Shape: np.dot(batch, input_features), (input_features, output_neurons)) = (batch, output_neurons)
 
 2. Broadcasting automatically expands biases to match batch dimension
 
